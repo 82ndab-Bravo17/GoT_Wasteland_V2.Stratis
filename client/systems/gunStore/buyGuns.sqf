@@ -1,4 +1,3 @@
-
 //	@file Version: 1.0
 //	@file Name: buyGuns.sqf
 //	@file Author: [404] Deadbeat, [404] Costlyy
@@ -163,7 +162,7 @@ switch (_switch) do
 								hint format["You already have headgear, please drop it before buying a new one"]; 
                             };
                         };
-						case "gogg":
+			case "gogg":
                         {
                             if (goggles player == "") then
                             {
@@ -175,15 +174,24 @@ switch (_switch) do
 								hint format["You already have goggles, please drop them before buying a new one"]; 
                             };
                         };
-                    };
+                        case "mag":
+			{
+				if ([player, _class] call fn_fitsInventory) then
+				{
+					player addMagazine _class;
+				} else {
+					gunStoreCart = gunStoreCart - (_x select 2);
+					hint format [_notEnoughSpace,_name];
 				};
-            } forEach (call accessoriesArray);
+                    	};
 		};
-		player setVariable["cmoney",_playerMoney - gunStoreCart,true];
-		_playerMoneyText CtrlsetText format["Cash: $%1", player getVariable "cmoney"];
-		lbClear _cartlist;
-		gunStoreCart = 0;
-		_totalText CtrlsetText format["Total: $%1", gunStoreCart];
-		_Purchaseactive = 0;
+            } forEach (call accessoriesArray);
+	};
+	player setVariable["cmoney",_playerMoney - gunStoreCart,true];
+	_playerMoneyText CtrlsetText format["Cash: $%1", player getVariable "cmoney"];
+	lbClear _cartlist;
+	gunStoreCart = 0;
+	_totalText CtrlsetText format["Total: $%1", gunStoreCart];
+	_Purchaseactive = 0;
 	};
 };
